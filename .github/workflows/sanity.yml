@@ -1,0 +1,17 @@
+on: [push, pull_request]
+name: Sanity
+jobs:
+  lint:
+    name: "Run go sanity tools"
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.14.x
+    - name: Install golint
+      run: go get -u golang.org/x/lint/golint
+    - name: Lint
+      run: golint -set_exit_status ./specs-go/*.go
+    - name: Fmt
+      run: gofmt ./specs-go/*.go
